@@ -41,7 +41,7 @@ Heber Nielsen | e: hcnielsen@mail.smu.edu p:
 	
 	2.C. Core Data File Codebook
 		
-		CaseStudy2-Data.xlsx (Core data file containing HR data and Attition information)
+		./Datasets/CaseStudy2-Data.xlsx (Core data file containing HR data and Attition information)
 
 
 Variable		Variable Type				Allowable Values
@@ -198,7 +198,7 @@ YearsWithCurrManager	numeric:integer, countable value	0-17 (countable)
 			The training set will be used to fit our model which we will be testing over the testing set. 
 			Note that the training data set is ~2/3 the size of the total data, because a training 
 			set at 1/2 the size of the total data did not converge.
-		ix.	Now, let’s fit the model. Be sure to specify the parameter family=binomial 
+		ix.	Now, let?s fit the model. Be sure to specify the parameter family=binomial 
 			in the glm() function. Note that we upped the max iterations to 50, 
 			in order to override the default number of iterations. 
 			That said, this model converges at 15 iterations.
@@ -222,7 +222,7 @@ YearsWithCurrManager	numeric:integer, countable value	0-17 (countable)
 			the McFadden R2 index can be used to assess the model fit.
 		iii.	Assessing the predictive ability of the model: In the steps above, we briefly 
 			evaluated the fitting of the model, now we would like to see how the model is 
-			doing when predicting y on a new set of data. By setting the parameter type=‘response’, 
+			doing when predicting y on a new set of data. By setting the parameter type=?response?, 
 			R will output probabilities in the form of P(y=1|X). Our decision boundary will be 0.5. 
 			If P(y=1|X) > 0.5 then y = 1 otherwise y=0. Note that for some applications different 
 			decision boundaries could be a better option.
