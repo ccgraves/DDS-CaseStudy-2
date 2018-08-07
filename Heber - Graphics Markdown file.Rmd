@@ -1,0 +1,93 @@
+---
+title: "Heber RMarkdown from Chris Code"
+author: "Heber Nielsen"
+date: "August 6, 2018"
+output: html_document
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+getwd()
+library(csvread)
+workforce.df <- read.csv("https://github.com/ccgraves/DDS-CaseStudy-2"", header=TRUE, stringsAsFactors = TRUE, sep = ",")
+head (workforce.df)
+summary(workforce.df)
+colnames(workforce.df) <- c("Age", "Attrition", "BusTravel", "DayRate", "Department", "DistFromHome", "Education", "EducField", "EmpCount", "EmpNumber", "EnvironSat", "Gender", "HourRate", "JobInvolve", "JobLevel", "JobRole", "JobSat", "MaritalStat", "MonthInc", "MonthRate", "NumCompWrkd", "Over18", "OverTime", "PctSalHike", "PerfRating", "RelationSat", "StdHours", "StkOptLvl", "TotWorkYrs", "TrngTmLstYr", "WrkLifBal", "YrsAtComp", "YrsCurRole", "YrsLstPromo", "YrsCurrMgr")
+head (workforce.df)
+sapply(workforce.df, class)
+summary(workforce.df$Over18)
+install.packages("pastecs")
+library("pastecs", lib.loc="~/R/win-library/3.5")
+attach(workforce.df)
+scores <- cbind(Age, Attrition, BusTravel, Department, DistFromHome, Education, EducField, MonthRate)
+options(scipen=100)
+options(digits=2)
+stat.desc(scores, basic=F)
+library("ggplot2", lib.loc="~/R/win-library/3.5")
+library("markdown", lib.loc="~/R/win-library/3.5")
+library("RColorBrewer", lib.loc="~/R/win-library/3.5")
+#
+library("ggplot2", lib.loc="~/R/win-library/3.5")
+library("markdown", lib.loc="~/R/win-library/3.5")
+library("RColorBrewer", lib.loc="~/R/win-library/3.5")
+#
+#              
+library("ggplot2", lib.loc="~/R/win-library/3.5")
+library("markdown", lib.loc="~/R/win-library/3.5")
+library("RColorBrewer", lib.loc="~/R/win-library/3.5")
+#Table format of at least 7 Variables.
+library(pastecs)
+attach(workforce.df)
+scores <- cbind(Age, Attrition, BusTravel, Department, DistFromHome, Education, EducField, MonthRate)
+options(scipen=100)
+options(digits=2)
+stat.desc(scores, basic=F)
+#
+#Create simplel histogram for two of them.
+library(ggplot2)
+#Histogram of Workforce age distribution
+hist(workforce.df$Age,
+main="Histogram for Age",
+xlab="Age",
+xlim = range (pretty(c(18, 60))),
+col="light blue",
+las=1,
+breaks=11)
+# COMMENT ON MY BEAUTIFUL HISTOGRAM
+#
+#Histogram of Monthly Income distribution
+hist(workforce.df$MonthRate,
+main="Distribution of  Monthly Income in the WorkForce",
+xlab="Monthly Income",
+ylab = "Number of Workers",
+xlim= range(pretty(c(0, 28000))),
+ylim= range (pretty(c(0, 80))),
+col="pink",
+las=1,
+breaks=25)
+#COMMENT ON MY BEAUTIFUL HISTOGRAM
+#
+#Frequencies for Gender, Education, and Occupation
+#For Gender:
+ggplot(workforce.df) + aes(x = Gender)  + labs (title = "Comparative Numbers of Female and Male Employees") + geom_bar(fill = "#167DE6") + theme_bw() + theme(plot.title = element_text (hjust = 0.5))
+#For Education
+ggplot(workforce.df) + aes(x = Education)  + labs (title = "Maximum Education Levels of Employees") + geom_bar(fill = "#992CC1") + theme_bw() + theme(plot.title = element_text (hjust = 0.5))
+#Another color for Education
+ggplot(workforce.df) + aes(x = Education)  + labs (title = "Maximum Education Levels of Employees") + geom_bar(fill = "#D55E10") + theme_bw() + theme(plot.title = element_text (hjust = 0.5))
+#Job Role
+ggplot(data.frame(workforce.df)) + aes(x=JobRole) + labs (title = "Work Force - Number per Position") + geom_bar(fill = "#CC79A7") + theme_bw() + theme(plot.title = element_text(angle=0,hjust=0.5,vjust=0.5)) + coord_flip()
+#Count of Management Positions
+with(droplevels(workforce.df[which(workforce.df$JobRole!= "Healthcare Representative" & workforce.df$JobRole!= "Human Resources" & workforce.df$JobRole!= "Laboratory Technician" & workforce.df$JobRole!= "Research Scientist" & workforce.df$JobRole!= "Sales Representative"),]),
+plot(JobRole, las=2, cex.xaxis=0.8, col = "dark red", main = "Management Positions"))
+##THIS NEXT PLOT IS FOR QUESTION 4. THE PLOT IN THE CURRENT DOCUMENT IS NOT CORRECT, AS IT PLOTS MONTHLY_RATE VERSUS AGE. THE QUESTION ASKS FOR MONTHLY_INCOME VERSUS AGE. THIS NEEDS TO BE REPLACED, AND THE SUBSEQUENT TEXT THAT ANSWERS SPECIFIC QUESTIONS NEEDS TO BE CHANGED.  
+#Dot plot monthly income vs age, by genderggplot
+ggplot (workforce.df, aes(x=Age, y=MonthInc, color = Gender)) + geom_point (size = 2, shape = 18) + geom_smooth(method = lm, linetype = "dashed", color = "darkred", fill = "steelblue4")
+###Two ways of looking at Attrition and Gender
+ggplot(workforce.df, aes(Attrition)) + geom_bar(aes(fill = Gender))  + labs (title = "Comparative Attrition of Female and Male Employees")
+ggplot(workforce.df, aes(Gender)) + geom_bar(aes(fill = Attrition))#  + labs (title = "Comparative Numbers of Female and Male Employee Attritions")
+
+
+
+
+
+```
