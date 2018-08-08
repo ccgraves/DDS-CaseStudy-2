@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #install.packages("csvread")
 library(csvread)
-setwd("~/Qsync/datascience/msds6306_doing_datascience/DDS-CaseStudy-2/Dataset")
+setwd("C:\\Users\\allen\\Documents\\SMU Data Science\\MSDS6306 - Doing Data Science\\Case Study 2")
 workforce.df <- read.csv("CaseStudy2-data.csv", header=TRUE, stringsAsFactors = TRUE, sep = ",")
 
 #Get number of rows in the dataset
@@ -91,11 +91,11 @@ hist(workforce.df$Age,
      las=1, 
      breaks=10)
 
-hist(workforce.df$MonthRate,
+hist(workforce.df$MonthInc,
      main="Histogram for Monthly Income", 
      xlab="Monthly Income",
-     xlim=c(2000,30000),
-     ylim=c(0,80),
+     xlim=c(2000,20000),
+     ylim=c(0,400),
      col="green",
      las=1, 
      breaks=25)
@@ -131,28 +131,26 @@ plot(JobRole, las=2, cex.xaxis=0.8))
 ###4C. Is there a relationship between Age and Income?  Create a scatterplot and make an assessment of whether there is a relationship.  Color each point based on the Gender of the participant.  You're welcome to use lm() or similar functions to back up your claims.
 
 ```{r}
-model2 <- lm(MonthRate ~ Age, data=workforce.df)
+model2 <- lm(MonthInc ~ Age, data=workforce.df)
 summary(model2)
 
-fill = c("steelblue", "pink")
-library(ggplot2)
-model2_plot <- ggplot(workforce.df, aes(Age, MonthRate, fill = Gender)) +
-  geom_point(shape = 21) +
-  theme_bw() +
-  theme() +
-  ggtitle("Monthly Income by Age") +
-  labs(x = "Age", y = "Monthly Income", fill = "Gender") +
-  scale_fill_manual(values = fill) +
-  scale_size(range = c(1, 10)) +
-  theme(legend.position="bottom", legend.direction="horizontal")
-model2_plot
+ggplot(workforce.df, aes(x=Age, y=MonthInc, color = Gender)) + geom_point (size = 2, shape = 18) + geom_smooth(method = lm, linetype = "dashed", color = "darkred", fill = "steelblue4") + labs(y = "Monthly Income")
 ```
 
-####There does not appear to be any evidence that Age and Income are correlated, as there appears to be a good distribution of income levels (based on the variable Monthly Income) to Age. If this were a hypothesis test (H0 = Monthly Income is similar, by Age), would fail to reject the null hypothesis (p = 0.282 > alpha = 0.05), and conclude that Monthly Income is not related to Age. When Gender is overlaid onto the data, it too suggests that there is a similar distribution of male and female workers in each age and income bracket (though there are more males in general in this workforce than females).
+####There appears to be strong evidence that Age and Monthly Income are correlated. When Gender is overlaid, there also appears to be some evidence that there may be a difference between Male and Female incomes, but this would require more robust hypothesis testing. 
 
 ###4D. What about Life Satisfaction?  Create another scatterplot.  Is there a discernible relationship there to what?
 
+####For our dataset, we conducted an employee survey that asks the overall question of "How Satisfied are You With Your Life?" We then plotted this against Attrition to see the effect of this survey question on Attrition. Since Attrition only has two levels, the plot is not actually a scatter plot, but a box plot on both Attrition = "Yes" and Attrition  = "No". It appears that Life Satisfaction is slightly higher for those that leave the company, suggesting that we have more work to do with our employee retention programs!
 
+```{r}
+setwd("C:\\Users\\allen\\Documents\\SMU Data Science\\MSDS6306 - Doing Data Science\\Case Study 2")
+workforce_ls.df <- read.csv("CaseStudy2-dataLS.csv", header=TRUE, stringsAsFactors = TRUE, sep = ",")
+
+attach(workforce_ls.df)
+plot(Attrition, LifeSatisfaction, main="Attrition by Life Satisfaction", xlab="Attrition", ylab="LifeSatisfaction", pch=19)
+
+```
 
 ##Section 2: Building the model to predict Attrition
 
